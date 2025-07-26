@@ -1,0 +1,50 @@
+<!-- relationship_app/templates/relationship_app/all_books_list.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .book-list {
+            margin-top: 1.5rem;
+        }
+        .book-item {
+            padding: 0.5rem;
+            background: #fff;
+            border: 1px solid #ddd;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+        }
+        .author {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>{{ page_title }}</h1>
+    <p>{{ intro_message }}</p>
+
+    <div class="book-list">
+        {% for book in books %}
+            <div class="book-item">
+                <strong>{{ book.title }}</strong><br>
+                <span class="author">Author: {{ book.author.name }}</span>
+            </div>
+        {% empty %}
+            <p>No books found in the library.</p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
