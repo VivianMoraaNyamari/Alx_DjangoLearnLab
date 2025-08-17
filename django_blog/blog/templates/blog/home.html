@@ -1,0 +1,11 @@
+<h1>Welcome to the Blog!</h1>
+
+{% if user.is_authenticated %}
+    <p>Hello, {{ user.username }}!</p>
+    <a href="{% url 'blog:profile' %}">View Profile</a>
+    <a href="{% url 'blog:logout' %}">Logout</a>
+{% else %}
+    <p>You are not logged in.</p>
+    <a href="{% url 'blog:login' %}">Login</a>
+    <a href="{% url 'blog:register' %}">Register</a>
+{% endif %}

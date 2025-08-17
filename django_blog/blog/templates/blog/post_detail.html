@@ -1,0 +1,46 @@
+<article>
+    <h2>{{ post.title }}</h2>
+    <p>By {{ post.author.name }} on {{ post.published_date|date:"F d, Y" }}</p>
+    <p>{{ post.content }}</p>
+</article>
+{% if user.is_authenticated and post.author == user %}
+    <a href="{% url 'blog:post_update' pk=object.pk %}">Edit Post</a>
+    <a href="{% url 'blog:post_delete' pk=object.pk %}">Delete Post</a>
+{% endif %}
+
+<hr>
+
+<h2>Comments ({{ comments.count }})</h2>
+
+{% if comments %}
+    {% for comment in comments %}
+        <p><strong>{{ comment.author }}</strong> on {{ comment.created_at|date:"F d, Y" }}</p>
+        <p>{{ comment.content }}</p>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>No comments yet. Be the first to comment!</p>
+{% endif %}
+
+{% if user.is_authenticated %}
+    <h3>Leave a Comment</h3>
+    <form method="post" action="{% url 'blog:comment_create' post_id=object.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Post Comment</button>
+    </form>
+{% else %}
+    <p>Please <a href="{% url 'blog:login' %}">log in</a> to leave a comment.</p>
+{% endif %}
+
+<p>
+    <strong>Tags:</strong>
+    {% for tag in object.tags.all %}
+        <a href="{% url 'blog:posts_by_tag' tag_slug=tag.slug %}">{{ tag.name }}</a>
+        {% if not forloop.last %}, {% endif %}
+    {% empty %}
+        No tags.
+    {% endfor %}
+</p>
+
+<a href="{% url 'blog:post_list' %}">Return to all blog posts</a>

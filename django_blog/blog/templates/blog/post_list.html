@@ -1,0 +1,16 @@
+<h1>All Blog Posts</h1>
+{% for post in posts %} 
+    <article>
+        <h2><a href="{% url 'blog:post_detail' post.pk %}">{{ post.title }}</a></h2>
+        <p>By {{ post.author.username }} on {{ post.published_date|date:"F d, Y" }}</p>
+        <p>{{ post.content|truncatewords:50 }}</p>
+    </article>
+<form action="{% url 'blog:search_posts' %}" method="get">
+    <input type="text" name="q" placeholder="Search blog posts..." value="{{ request.GET.q }}">
+    <button type="submit">Search</button>
+</form>
+<h1>All Blog Posts</h1>
+
+{% empty %}
+    <p>No posts are available yet.</p>
+{% endfor %}
